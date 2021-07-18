@@ -9,9 +9,11 @@ import androidx.recyclerview.widget.RecyclerView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import retrofit2.http.POST
 
 class MainActivity : AppCompatActivity() {
     lateinit var postView:RecyclerView
+    lateinit var commentsView: RecyclerView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -20,14 +22,14 @@ class MainActivity : AppCompatActivity() {
     }
     fun getPost(){
         val retrofit=Apiclient.buildApiClient(ApiInterface::class.java)
-        val request=retrofit.getPosts()
+        val request=retrofit.getPost()
         request.enqueue(object :Callback<List<Post>>{
             override fun onResponse(call: Call<List<Post>>, response: Response<List<Post>>) {
               if(response.isSuccessful){
                   var posts=response.body()!!
-                  var postAdapter=PostRecyclerViewAdapter(posts)
+                  var postAdapter=PostRecyclerViewAdapter(posts,baseContext)
                    postView.adapter=postAdapter
-                  postView.layoutManager=LinearLayoutManager(baseContext)
+                  postView.layoutManager=LinearLayoutManager(baseContext,)
               }
             }
 
